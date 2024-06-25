@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Avatar, Button } from '@mui/material'
 import './Sidebar.css'
+import CreateNewTaskForm from '../task/CreateTask'
 
 const menu = [
 	{ name: 'Home', value: 'Home', role: ['ROLE_ADMIN', 'ROLE_CUSTOMER'] },
@@ -14,14 +15,30 @@ const menu = [
 const role = 'ROLE_ADMIN'
 
 const Sidebar = () => {
-	const [activeMenu, setActiveMenu] = useState('DONE')
+	const [activeMenu, setActiveMenu] = useState('DONE');
+	const [openCreateTaskForm, setOpenCreateTaskForm] = useState(false);
+
+	const handleCloseCreateTaskForm = () => {
+    setOpenCreateTaskForm(false);
+  };
+  
+	const handleOpenCreateTaskForm = () => {
+    setOpenCreateTaskForm(true);
+  };
+	
 	const handleMenuChange = (item) => {
-		setActiveMenu(item.name)
-	}
+		if (item.name === 'Create New Task') {
+			handleOpenCreateTaskForm();
+		}
+		setActiveMenu(item.name);
+	};
+	
 	const handleLogout = () => {
-		console.log('handle logout')
-	}
+		console.log('handle logout');
+	};
+	
 	return (
+		<>
 		<div className='card min-h-[85vh] flex flex-col justify-center fixed w-[20vw]'>
 			<div className='space-y-5 h-full'>
 				<div className='flex justify-center'>
@@ -47,6 +64,9 @@ const Sidebar = () => {
 				</Button>
 			</div>
 		</div>
+		
+		<CreateNewTaskForm open={openCreateTaskForm} handleClose={handleCloseCreateTaskForm}/>
+		</>
 	)
 }
 
