@@ -5,11 +5,13 @@ import Home from './components/home/Home'
 import Auth from './components/auth/Auth'
 
 function App() {
+	const user = true;
 	return (
 		<ThemeProvider theme={darkTheme}>
-			{/* <Navbar /> */}
-			{/* <Home /> */}
-			<Auth />
+			{user?<div>
+			  <Navbar />
+			  <Home />
+			</div>:<Auth />}
 		</ThemeProvider>
 	)
 }
