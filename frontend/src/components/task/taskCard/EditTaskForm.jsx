@@ -5,6 +5,9 @@ import { Autocomplete, Button, Grid, TextField } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTasksById, updateTask } from '../../../redux/TasksSlice';
+import { useLocation } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -13,16 +16,20 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  outline: 'none',
   boxShadow: 24,
   p: 4,
 };
 
 const tags = ['Angular', 'React', 'Vue JS', 'Spring boot', 'Hilla', 'Nod JS', 
-  'Python', 'Django', 'Php', 'Laravel'];
+  'Python', 'Django', 'Php', 'Laravel', 'C++', 'C'];
 
-export default function EditTaskForm({handleClose, open}) {
-  const [selectedTags, setSelectedTags] = useState([]);
+export default function EditTaskForm({item, handleClose, open}) {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+	const taskId = queryParams.get('taskId');
+  const {task} = useSelector(store=>store);
   const [formData, setFormData] = useState({
     title: "",
     image: "",
@@ -30,12 +37,13 @@ export default function EditTaskForm({handleClose, open}) {
     tags: [],
     deadline: new Date()
   });
+  const [selectedTags, setSelectedTags] = useState([]);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -46,7 +54,7 @@ export default function EditTaskForm({handleClose, open}) {
   const handleDeadlineChange = (date) => {
     setFormData({
       ...formData,
-      deadline:date
+      deadline:date,
     });
   };
 
@@ -72,12 +80,17 @@ export default function EditTaskForm({handleClose, open}) {
     formData.deadline=formateDate(deadline);
     formData.tags=selectedTags;
     console.log('formData', formData, 'deadline : ', formData.deadline);
+    dispatch(updateTask({id:taskId,updatedTaskData:formData}));
     handleClose();
   };
 
-  useEffect(()=>{
+  useEffect(() => {
+    dispatch(fetchTasksById(taskId))
+  },[taskId]);
 
-  },[]);
+  useEffect(() => {
+    if(task.taskDetails) setFormData(task.taskDetails)
+  }, [task.taskDetails]);
 
   return (
     <div>

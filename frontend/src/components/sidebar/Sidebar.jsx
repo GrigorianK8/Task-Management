@@ -3,6 +3,8 @@ import { Avatar, Button } from '@mui/material'
 import './Sidebar.css'
 import CreateNewTaskForm from '../task/CreateTask'
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/AuthSlice';
 
 const menu = [
 	{ name: 'Home', value: 'Home', role: ['ROLE_ADMIN', 'ROLE_CUSTOMER'] },
@@ -18,6 +20,7 @@ const role = 'ROLE_ADMIN'
 const Sidebar = () => {
 	const [activeMenu, setActiveMenu] = useState('DONE');
 	const [openCreateTaskForm, setOpenCreateTaskForm] = useState(false);
+	const dispatch = useDispatch();
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -50,6 +53,7 @@ const Sidebar = () => {
 	};
 	
 	const handleLogout = () => {
+		dispatch(logout())
 		console.log('handle logout');
 	};
 	

@@ -12,13 +12,13 @@ const Auth = () => {
   return (
     <div className='flex justify-center h-screen items-center overflow-hidden'>
       <div className='box lg:max-w-4xl'>
-        <div className={`cover ${isRegister?'rotate-active':''}`}>
+        <div className={`cover ${isRegister ? 'rotate-active' : ''}`}>
           <div className='front'>
             <img 
             src="https://cdn.pixabay.com/photo/2020/12/03/23/35/work-5801876_1280.jpg" 
             alt="" />
             <div className='text'>
-              <span className='text-1'>Success is built upon well-organized tasks</span>
+              <span className='text-1'>Success is built upon well organized tasks</span>
               <span className='text-2 text-xs'>Let's get connected</span>
             </div>
           </div>
